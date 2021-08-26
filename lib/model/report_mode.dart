@@ -5,8 +5,8 @@ import 'package:catcher/model/report.dart';
 import 'package:flutter/widgets.dart';
 
 abstract class ReportMode {
-  late ReportModeAction _reportModeAction;
-  LocalizationOptions? _localizationOptions;
+  ReportModeAction _reportModeAction;
+  LocalizationOptions _localizationOptions;
 
   // ignore: use_setters_to_change_properties
   /// Set report mode action.
@@ -16,13 +16,13 @@ abstract class ReportMode {
 
   // ignore: use_setters_to_change_properties
   /// Set localization options (translations) to this report mode
-  void setLocalizationOptions(LocalizationOptions? localizationOptions) {
+  void setLocalizationOptions(LocalizationOptions localizationOptions) {
     _localizationOptions = localizationOptions;
   }
 
   /// Code which should be triggered if new error has been caught and core
   /// creates report about this.
-  void requestAction(Report report, BuildContext? context);
+  void requestAction(Report report, BuildContext context);
 
   /// On user has accepted report
   void onActionConfirmed(Report report) {

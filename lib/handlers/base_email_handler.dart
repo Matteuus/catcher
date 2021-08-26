@@ -9,8 +9,8 @@ abstract class BaseEmailHandler extends ReportHandler {
   final bool enableApplicationParameters;
   final bool enableStackTrace;
   final bool enableCustomParameters;
-  final String? emailTitle;
-  final String? emailHeader;
+  final String emailTitle;
+  final String emailHeader;
   final HtmlEscape _htmlEscape = const HtmlEscape();
 
   BaseEmailHandler(
@@ -24,7 +24,7 @@ abstract class BaseEmailHandler extends ReportHandler {
   ///Setup email title from [report].
   String getEmailTitle(Report report) {
     if (emailTitle?.isNotEmpty == true) {
-      return emailTitle!;
+      return emailTitle;
     } else {
       return "Error report: >> ${report.error} <<";
     }

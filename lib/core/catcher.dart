@@ -20,23 +20,23 @@ import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class Catcher with ReportModeAction {
-  static late Catcher _instance;
-  static GlobalKey<NavigatorState>? _navigatorKey;
+  static Catcher _instance;
+  static GlobalKey<NavigatorState> _navigatorKey;
 
   /// Root widget which will be ran
-  final Widget? rootWidget;
+  final Widget rootWidget;
 
   ///Run app function which will be ran
-  final void Function()? runAppFunction;
+  final void Function() runAppFunction;
 
   /// Instance of catcher config used in release mode
-  CatcherOptions? releaseConfig;
+  CatcherOptions releaseConfig;
 
   /// Instance of catcher config used in debug mode
-  CatcherOptions? debugConfig;
+  CatcherOptions debugConfig;
 
   /// Instance of catcher config used in profile mode
-  CatcherOptions? profileConfig;
+  CatcherOptions profileConfig;
 
   /// Should catcher logs be enabled
   final bool enableLogger;
@@ -44,17 +44,17 @@ class Catcher with ReportModeAction {
   /// Should catcher run WidgetsFlutterBinding.ensureInitialized() during initialization.
   final bool ensureInitialized;
 
-  late CatcherOptions _currentConfig;
-  late CatcherLogger _logger;
-  late CatcherScreenshotManager screenshotManager;
+  CatcherOptions _currentConfig;
+  CatcherLogger _logger;
+  CatcherScreenshotManager screenshotManager;
   final Map<String, dynamic> _deviceParameters = <String, dynamic>{};
   final Map<String, dynamic> _applicationParameters = <String, dynamic>{};
   final List<Report> _cachedReports = [];
   final Map<DateTime, String> _reportsOcurrenceMap = {};
-  LocalizationOptions? _localizationOptions;
+  LocalizationOptions _localizationOptions;
 
   /// Instance of navigator key
-  static GlobalKey<NavigatorState>? get navigatorKey {
+  static GlobalKey<NavigatorState> get navigatorKey {
     return _navigatorKey;
   }
 
@@ -67,13 +67,13 @@ class Catcher with ReportModeAction {
     this.profileConfig,
     this.enableLogger = true,
     this.ensureInitialized = false,
-    GlobalKey<NavigatorState>? navigatorKey,
+    GlobalKey<NavigatorState> navigatorKey,
   }) : assert(rootWidget != null || runAppFunction != null,
             "You need to provide rootWidget or runAppFunction") {
     _configure(navigatorKey);
   }
 
-  void _configure(GlobalKey<NavigatorState>? navigatorKey) {
+  void _configure(GlobalKey<NavigatorState> navigatorKey) {
     _instance = this;
     _configureNavigatorKey(navigatorKey);
     _setupCurrentConfig();
@@ -94,7 +94,7 @@ class Catcher with ReportModeAction {
     }
   }
 
-  void _configureNavigatorKey(GlobalKey<NavigatorState>? navigatorKey) {
+  void _configureNavigatorKey(GlobalKey<NavigatorState> navigatorKey) {
     if (navigatorKey != null) {
       _navigatorKey = navigatorKey;
     } else {
@@ -107,7 +107,7 @@ class Catcher with ReportModeAction {
       case ApplicationProfile.release:
         {
           if (releaseConfig != null) {
-            _currentConfig = releaseConfig!;
+            _currentConfig = releaseConfig;
           } else {
             _currentConfig = CatcherOptions.getDefaultReleaseOptions();
           }
@@ -116,7 +116,7 @@ class Catcher with ReportModeAction {
       case ApplicationProfile.debug:
         {
           if (debugConfig != null) {
-            _currentConfig = debugConfig!;
+            _currentConfig = debugConfig;
           } else {
             _currentConfig = CatcherOptions.getDefaultDebugOptions();
           }
@@ -125,7 +125,7 @@ class Catcher with ReportModeAction {
       case ApplicationProfile.profile:
         {
           if (profileConfig != null) {
-            _currentConfig = profileConfig!;
+            _currentConfig = profileConfig;
           } else {
             _currentConfig = CatcherOptions.getDefaultProfileOptions();
           }
@@ -136,9 +136,9 @@ class Catcher with ReportModeAction {
 
   ///Update config after initialization
   void updateConfig({
-    CatcherOptions? debugConfig,
-    CatcherOptions? profileConfig,
-    CatcherOptions? releaseConfig,
+    CatcherOptions debugConfig,
+    CatcherOptions profileConfig,
+    CatcherOptions releaseConfig,
   }) {
     if (debugConfig != null) {
       this.debugConfig = debugConfig;
@@ -197,11 +197,11 @@ class Catcher with ReportModeAction {
 
     if (rootWidget != null) {
       _runZonedGuarded(() {
-        runApp(rootWidget!);
+        runApp(rootWidget);
       });
     } else if (runAppFunction != null) {
       _runZonedGuarded(() {
-        runAppFunction!();
+        runAppFunction();
       });
     } else {
       throw ArgumentError("Provide rootWidget or runAppFunction to Catcher.");
@@ -221,7 +221,7 @@ class Catcher with ReportModeAction {
 
   void _configureLogger() {
     if (_currentConfig.logger != null) {
-      _logger = _currentConfig.logger!;
+      _logger = _currentConfig.logger;
     } else {
       _logger = CatcherLogger();
     }
@@ -244,11 +244,6 @@ class Catcher with ReportModeAction {
     } else if (ApplicationProfileManager.isLinux()) {
       deviceInfo.linuxInfo.then((linuxDeviceInfo) {
         _loadLinuxParameters(linuxDeviceInfo);
-        _removeExcludedParameters();
-      });
-    } else if (ApplicationProfileManager.isWindows()) {
-      deviceInfo.windowsInfo.then((windowsInfo) {
-        _loadWindowsParameters(windowsInfo);
         _removeExcludedParameters();
       });
     } else if (ApplicationProfileManager.isMacOS()) {
@@ -309,17 +304,6 @@ class Catcher with ReportModeAction {
       _deviceParameters["cpuFrequency"] = macOsDeviceInfo.cpuFrequency;
     } catch (exception) {
       _logger.warning("Load MacOS parameters failed: $exception");
-    }
-  }
-
-  void _loadWindowsParameters(WindowsDeviceInfo windowsDeviceInfo) {
-    try {
-      _deviceParameters["computerName"] = windowsDeviceInfo.computerName;
-      _deviceParameters["numberOfCores"] = windowsDeviceInfo.numberOfCores;
-      _deviceParameters["systemMemoryInMegabytes"] =
-          windowsDeviceInfo.systemMemoryInMegabytes;
-    } catch (exception) {
-      _logger.warning("Load Windows parameters failed: $exception");
     }
   }
 
@@ -415,7 +399,7 @@ class Catcher with ReportModeAction {
   void _setupLocalization() {
     Locale locale = const Locale("en", "US");
     if (_isContextValid()) {
-      final BuildContext? context = _getContext();
+      final BuildContext context = _getContext();
       if (context != null) {
         locale = Localizations.localeOf(context);
       }
@@ -492,7 +476,7 @@ class Catcher with ReportModeAction {
   void _reportError(
     dynamic error,
     dynamic stackTrace, {
-    FlutterErrorDetails? errorDetails,
+    FlutterErrorDetails errorDetails,
   }) async {
     if (errorDetails?.silent == true &&
         _currentConfig.handleSilentError == false) {
@@ -508,7 +492,7 @@ class Catcher with ReportModeAction {
 
     _cleanPastReportsOccurences();
 
-    File? screenshot;
+    File screenshot;
     if (!ApplicationProfileManager.isWeb()) {
       screenshot = await screenshotManager.captureAndSave();
     }
@@ -532,13 +516,13 @@ class Catcher with ReportModeAction {
     }
 
     if (_currentConfig.filterFunction != null &&
-        _currentConfig.filterFunction!(report) == false) {
+        _currentConfig.filterFunction(report) == false) {
       _logger.fine(
           "Error: '$error' has been filtered from Catcher logs. Report will be skipped.");
       return;
     }
     _cachedReports.add(report);
-    ReportMode? reportMode =
+    ReportMode reportMode =
         _getReportModeFromExplicitExceptionReportModeMap(error);
     if (reportMode != null) {
       _logger.info("Using explicit report mode for error");
@@ -574,9 +558,9 @@ class Catcher with ReportModeAction {
     return reportMode.getSupportedPlatforms().contains(report.platformType);
   }
 
-  ReportMode? _getReportModeFromExplicitExceptionReportModeMap(dynamic error) {
+  ReportMode _getReportModeFromExplicitExceptionReportModeMap(dynamic error) {
     final errorName = error != null ? error.toString().toLowerCase() : "";
-    ReportMode? reportMode;
+    ReportMode reportMode;
     _currentConfig.explicitExceptionReportModesMap.forEach((key, value) {
       if (errorName.contains(key.toLowerCase())) {
         reportMode = value;
@@ -586,10 +570,10 @@ class Catcher with ReportModeAction {
     return reportMode;
   }
 
-  ReportHandler? _getReportHandlerFromExplicitExceptionHandlerMap(
+  ReportHandler _getReportHandlerFromExplicitExceptionHandlerMap(
       dynamic error) {
     final errorName = error != null ? error.toString().toLowerCase() : "";
-    ReportHandler? reportHandler;
+    ReportHandler reportHandler;
     _currentConfig.explicitExceptionHandlersMap.forEach((key, value) {
       if (errorName.contains(key.toLowerCase())) {
         reportHandler = value;
@@ -601,7 +585,7 @@ class Catcher with ReportModeAction {
 
   @override
   void onActionConfirmed(Report report) {
-    final ReportHandler? reportHandler =
+    final ReportHandler reportHandler =
         _getReportHandlerFromExplicitExceptionHandlerMap(report.error);
     if (reportHandler != null) {
       _logger.info("Using explicit report handler");
@@ -667,7 +651,7 @@ class Catcher with ReportModeAction {
     _cachedReports.remove(report);
   }
 
-  BuildContext? _getContext() {
+  BuildContext _getContext() {
     return navigatorKey?.currentState?.overlay?.context;
   }
 
@@ -676,7 +660,7 @@ class Catcher with ReportModeAction {
   }
 
   /// Get currently used config.
-  CatcherOptions? getCurrentConfig() {
+  CatcherOptions getCurrentConfig() {
     return _currentConfig;
   }
 

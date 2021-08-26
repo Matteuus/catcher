@@ -292,19 +292,19 @@ class LocalizationOptions {
   ///Helper method used to copy values of current LocalizationOptions with new
   ///values passed in method.
   LocalizationOptions copyWith({
-    String? languageCode,
-    String? notificationReportModeTitle,
-    String? notificationReportModeContent,
-    String? dialogReportModeTitle,
-    String? dialogReportModeDescription,
-    String? dialogReportModeAccept,
-    String? dialogReportModeCancel,
-    String? pageReportModeTitle,
-    String? pageReportModeDescription,
-    String? pageReportModeAccept,
-    String? pageReportModeCancel,
-    String? toastHandlerDescription,
-    String? snackbarHandlerDescription,
+    String languageCode,
+    String notificationReportModeTitle,
+    String notificationReportModeContent,
+    String dialogReportModeTitle,
+    String dialogReportModeDescription,
+    String dialogReportModeAccept,
+    String dialogReportModeCancel,
+    String pageReportModeTitle,
+    String pageReportModeDescription,
+    String pageReportModeAccept,
+    String pageReportModeCancel,
+    String toastHandlerDescription,
+    String snackbarHandlerDescription,
   }) {
     return LocalizationOptions(
       languageCode ?? this.languageCode,

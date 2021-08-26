@@ -14,8 +14,8 @@ import 'package:flutter/widgets.dart';
 ///to file which can be reused later.
 class CatcherScreenshotManager {
   final CatcherLogger _logger;
-  late GlobalKey _containerKey;
-  String? _path;
+  GlobalKey _containerKey;
+  String _path;
 
   CatcherScreenshotManager(this._logger) {
     _containerKey = GlobalKey();
@@ -26,15 +26,15 @@ class CatcherScreenshotManager {
 
   ///Create screenshot and save it in file. File will be created in directory
   ///specified in CatcherOptions.
-  Future<File?> captureAndSave({
-    double? pixelRatio,
+  Future<File> captureAndSave({
+    double pixelRatio,
     Duration delay = const Duration(milliseconds: 20),
   }) async {
     try {
       if (_path?.isEmpty == true) {
         return null;
       }
-      final Uint8List? content = await _capture(
+      final Uint8List content = await _capture(
         pixelRatio: pixelRatio,
         delay: delay,
       );
@@ -55,25 +55,25 @@ class CatcherScreenshotManager {
     return file;
   }
 
-  Future<Uint8List?> _capture({
-    double? pixelRatio,
-    Duration? delay = const Duration(milliseconds: 20),
+  Future<Uint8List> _capture({
+    double pixelRatio,
+    Duration delay = const Duration(milliseconds: 20),
   }) {
     return Future.delayed(delay ?? const Duration(milliseconds: 20), () async {
       final ui.Image image = await _captureAsUiImage(
         delay: Duration.zero,
         pixelRatio: pixelRatio,
       );
-      final ByteData? byteData =
+      final ByteData byteData =
           await image.toByteData(format: ui.ImageByteFormat.png);
-      final Uint8List? pngBytes = byteData?.buffer.asUint8List();
+      final Uint8List pngBytes = byteData?.buffer.asUint8List();
 
       return pngBytes;
     });
   }
 
   Future<ui.Image> _captureAsUiImage({
-    double? pixelRatio,
+    double pixelRatio,
     Duration delay = const Duration(milliseconds: 20),
   }) {
     return Future.delayed(delay, () async {
@@ -86,8 +86,8 @@ class CatcherScreenshotManager {
         throw StateError("No boundary found");
       }
 
-      final BuildContext? context = _containerKey.currentContext;
-      double? pixelRatioValue = pixelRatio;
+      final BuildContext context = _containerKey.currentContext;
+      double pixelRatioValue = pixelRatio;
       if (pixelRatioValue == null) {
         if (context != null) {
           pixelRatioValue =

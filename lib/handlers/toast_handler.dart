@@ -13,9 +13,9 @@ class ToastHandler extends ReportHandler {
   final Color backgroundColor;
   final Color textColor;
   final double textSize;
-  final String? customMessage;
+  final String customMessage;
   final bool handleWhenRejected;
-  FToast? fToast;
+  FToast fToast;
 
   ToastHandler({
     this.gravity = ToastHandlerGravity.bottom,
@@ -28,7 +28,7 @@ class ToastHandler extends ReportHandler {
   });
 
   @override
-  Future<bool> handle(Report error, BuildContext? buildContext) async {
+  Future<bool> handle(Report error, BuildContext buildContext) async {
     if (ApplicationProfileManager.isAndroid() ||
         ApplicationProfileManager.isIos() ||
         ApplicationProfileManager.isWeb()) {
@@ -45,7 +45,7 @@ class ToastHandler extends ReportHandler {
         const Duration(milliseconds: 500),
         () {
           Navigator.push<void>(
-            buildContext!,
+            buildContext,
             PageRouteBuilder(
               opaque: false,
               pageBuilder: (_, __, ___) => FlutterToastPage(
@@ -93,7 +93,7 @@ class ToastHandler extends ReportHandler {
 
   String _getErrorMessage(Report error) {
     if (customMessage?.isNotEmpty == true) {
-      return customMessage!;
+      return customMessage;
     } else {
       return "${localizationOptions.toastHandlerDescription} ${error.error}";
     }
@@ -130,7 +130,7 @@ class FlutterToastPage extends StatefulWidget {
 
   const FlutterToastPage(this.text, this.gravity, this.duration,
       this.backgroundColor, this.textColor, this.textSize,
-      {Key? key})
+      {Key key})
       : super(key: key);
 
   @override
@@ -144,7 +144,7 @@ class _FlutterToastPageState extends State<FlutterToastPage> {
   @override
   void initState() {
     _fToast.init(context);
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!_disposed && mounted) {
         showToast();
       }

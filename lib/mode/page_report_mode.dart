@@ -14,7 +14,7 @@ class PageReportMode extends ReportMode {
   });
 
   @override
-  void requestAction(Report report, BuildContext? context) {
+  void requestAction(Report report, BuildContext context) {
     if (context != null) {
       _navigateToPageWidget(report, context);
     }
@@ -53,7 +53,7 @@ class PageWidget extends StatefulWidget {
   const PageWidget(
     this.pageReportMode,
     this.report, {
-    Key? key,
+    Key key,
   }) : super(key: key);
 
   @override

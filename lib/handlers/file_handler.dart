@@ -15,7 +15,7 @@ class FileHandler extends ReportHandler {
   final bool printLogs;
   final bool handleWhenRejected;
 
-  late IOSink _sink;
+  IOSink _sink;
   bool _fileValidated = false;
   bool _fileValidationResult = false;
 
@@ -30,7 +30,7 @@ class FileHandler extends ReportHandler {
   });
 
   @override
-  Future<bool> handle(Report report, BuildContext? context) async {
+  Future<bool> handle(Report report, BuildContext context) async {
     try {
       if (!_fileValidated) {
         _fileValidationResult = await _checkFile();

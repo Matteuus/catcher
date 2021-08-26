@@ -25,7 +25,7 @@ class HttpHandler extends ReportHandler {
   HttpHandler(
     this.requestType,
     this.endpointUri, {
-    Map<String, dynamic>? headers,
+    Map<String, dynamic> headers,
     this.requestTimeout = 5000,
     this.responseTimeout = 5000,
     this.printLogs = false,
@@ -36,7 +36,7 @@ class HttpHandler extends ReportHandler {
   }) : headers = headers ?? <String, dynamic>{};
 
   @override
-  Future<bool> handle(Report error, BuildContext? context) async {
+  Future<bool> handle(Report error, BuildContext context) async {
     if (error.platformType != PlatformType.web) {
       if (!(await CatcherUtils.isInternetConnectionAvailable())) {
         _printLog("No internet connection available");
@@ -69,7 +69,7 @@ class HttpHandler extends ReportHandler {
           receiveTimeout: responseTimeout,
           headers: mutableHeaders);
 
-      Response? response;
+      Response response;
       _printLog("Calling: ${endpointUri.toString()}");
       if (report.screenshot != null) {
         final screenshotPath = report.screenshot?.path ?? "";
@@ -84,7 +84,7 @@ class HttpHandler extends ReportHandler {
             data: json, options: options);
       }
       _printLog(
-          "HttpHandler response status: ${response.statusCode!} body: ${response.data!}");
+          "HttpHandler response status: ${response.statusCode} body: ${response.data}");
       return true;
     } catch (error, stackTrace) {
       _printLog("HttpHandler error: $error, stackTrace: $stackTrace");

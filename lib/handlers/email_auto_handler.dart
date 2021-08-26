@@ -26,8 +26,8 @@ class EmailAutoHandler extends BaseEmailHandler {
     this.enableSsl = false,
     this.sendHtml = true,
     this.printLogs = false,
-    String? emailTitle,
-    String? emailHeader,
+    String emailTitle,
+    String emailHeader,
     bool enableDeviceParameters = true,
     bool enableApplicationParameters = true,
     bool enableStackTrace = true,
@@ -43,7 +43,7 @@ class EmailAutoHandler extends BaseEmailHandler {
         );
 
   @override
-  Future<bool> handle(Report error, BuildContext? context) {
+  Future<bool> handle(Report error, BuildContext context) {
     return _sendMail(error);
   }
 
@@ -56,7 +56,7 @@ class EmailAutoHandler extends BaseEmailHandler {
         ..text = setupRawMessageText(report);
 
       if (report.screenshot != null) {
-        message.attachments = [FileAttachment(report.screenshot!)];
+        message.attachments = [FileAttachment(report.screenshot)];
       }
 
       if (sendHtml) {

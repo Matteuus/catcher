@@ -9,7 +9,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 void main() async {
   var catcher = Catcher(rootWidget: MyApp(), ensureInitialized: true);
-  Directory? externalDir;
+  Directory externalDir;
   if (Platform.isAndroid || Platform.isIOS) {
     externalDir = await getExternalStorageDirectory();
   }

@@ -17,7 +17,7 @@ class DiscordHandler extends ReportHandler {
   final bool enableApplicationParameters;
   final bool enableStackTrace;
   final bool enableCustomParameters;
-  final String Function(Report report)? customMessageBuilder;
+  final String Function(Report report) customMessageBuilder;
 
   DiscordHandler(
     this.webhookUrl, {
@@ -30,7 +30,7 @@ class DiscordHandler extends ReportHandler {
   });
 
   @override
-  Future<bool> handle(Report report, BuildContext? context) async {
+  Future<bool> handle(Report report, BuildContext context) async {
     if (report.platformType != PlatformType.web) {
       if (!(await CatcherUtils.isInternetConnectionAvailable())) {
         _printLog("No internet connection available");
@@ -40,7 +40,7 @@ class DiscordHandler extends ReportHandler {
 
     String message = "";
     if (customMessageBuilder != null) {
-      message = customMessageBuilder!(report);
+      message = customMessageBuilder(report);
     } else {
       message = _buildMessage(report);
     }
@@ -106,10 +106,10 @@ class DiscordHandler extends ReportHandler {
     return stringBuffer.toString();
   }
 
-  Future<bool> _sendContent(String content, File? screenshot) async {
+  Future<bool> _sendContent(String content, File screenshot) async {
     try {
       _printLog("Sending request to Discord server...");
-      Response? response;
+      Response response;
       if (screenshot != null) {
         final screenshotPath = screenshot.path;
         final FormData formData = FormData.fromMap(<String, dynamic>{

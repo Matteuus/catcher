@@ -7,11 +7,11 @@ import 'package:flutter/material.dart';
 
 class DialogReportMode extends ReportMode {
   @override
-  void requestAction(Report report, BuildContext? context) {
+  void requestAction(Report report, BuildContext context) {
     _showDialog(report, context);
   }
 
-  Future _showDialog(Report report, BuildContext? context) async {
+  Future _showDialog(Report report, BuildContext context) async {
     await Future<void>.delayed(Duration.zero);
     if (context != null) {
       if (CatcherUtils.isCupertinoAppAncestor(context)) {

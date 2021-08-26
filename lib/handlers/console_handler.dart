@@ -19,7 +19,7 @@ class ConsoleHandler extends ReportHandler {
   });
 
   @override
-  Future<bool> handle(Report report, BuildContext? context) {
+  Future<bool> handle(Report report, BuildContext context) {
     logger.info(
         "============================== CATCHER LOG ==============================");
     logger.info("Crash occurred on ${report.dateTime}");
@@ -36,7 +36,7 @@ class ConsoleHandler extends ReportHandler {
     logger.info("${report.error}");
     logger.info("");
     if (enableStackTrace) {
-      _printStackTraceFormatted(report.stackTrace as StackTrace?);
+      _printStackTraceFormatted(report.stackTrace as StackTrace);
     }
     if (enableCustomParameters) {
       _printCustomParametersFormatted(report.customParameters);
@@ -68,7 +68,7 @@ class ConsoleHandler extends ReportHandler {
     }
   }
 
-  void _printStackTraceFormatted(StackTrace? stackTrace) {
+  void _printStackTraceFormatted(StackTrace stackTrace) {
     logger.info("------- STACK TRACE -------");
     for (final entry in stackTrace.toString().split("\n")) {
       logger.info(entry);

@@ -45,14 +45,14 @@ class CatcherOptions {
   ///all reports will be passed to handlers.
   ///To mark given Report as valid, [filterFunction] should return true,
   ///otherwise return false.
-  final bool Function(Report report)? filterFunction;
+  final bool Function(Report report) filterFunction;
 
   ///Timeout for reports to prevent handling duplicates of same error. In
   ///milliseconds.
   final int reportOccurrenceTimeout;
 
   ///Logger instance.
-  final CatcherLogger? logger;
+  final CatcherLogger logger;
 
   /// Builds catcher options instance
   CatcherOptions(

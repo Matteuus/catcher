@@ -13,8 +13,8 @@ class EmailManualHandler extends BaseEmailHandler {
     this.recipients, {
     this.sendHtml = true,
     this.printLogs = false,
-    String? emailTitle,
-    String? emailHeader,
+    String emailTitle,
+    String emailHeader,
     bool enableDeviceParameters = true,
     bool enableApplicationParameters = true,
     bool enableStackTrace = true,
@@ -30,7 +30,7 @@ class EmailManualHandler extends BaseEmailHandler {
         );
 
   @override
-  Future<bool> handle(Report report, BuildContext? context) async {
+  Future<bool> handle(Report report, BuildContext context) async {
     return _sendEmail(report);
   }
 

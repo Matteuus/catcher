@@ -31,13 +31,13 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       navigatorKey: Catcher.navigatorKey,
-      builder: (BuildContext context, Widget? widget) {
+      builder: (BuildContext context, Widget widget) {
         Catcher.addDefaultErrorWidget(
             showStacktrace: true,
             title: "Custom title",
             description: "Custom description",
             maxWidthForSmallMode: 150);
-        return widget!;
+        return widget;
       },
       home: Scaffold(
         appBar: AppBar(

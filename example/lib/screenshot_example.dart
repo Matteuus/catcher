@@ -6,7 +6,7 @@ import 'package:path_provider/path_provider.dart';
 
 void main() async {
   var catcher = Catcher(rootWidget: MyApp(), ensureInitialized: true);
-  Directory? externalDir;
+  Directory externalDir;
   if (Platform.isAndroid || Platform.isIOS) {
     externalDir = await getExternalStorageDirectory();
   }

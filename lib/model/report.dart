@@ -24,14 +24,14 @@ class Report {
   final Map<String, dynamic> customParameters;
 
   /// FlutterErrorDetails data if present
-  final FlutterErrorDetails? errorDetails;
+  final FlutterErrorDetails errorDetails;
 
   /// Type of platform used
   final PlatformType platformType;
 
   ///Screenshot of screen where error happens. Screenshot won't work everywhere
   /// (i.e. web platform), so this may be null.
-  final File? screenshot;
+  final File screenshot;
 
   /// Creates report instance
   Report(

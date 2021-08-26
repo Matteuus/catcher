@@ -1,7 +1,7 @@
 import 'package:catcher/catcher.dart';
 import 'package:flutter/material.dart';
 
-late Catcher catcher;
+Catcher catcher;
 
 void main() {
   CatcherOptions debugOptions = CatcherOptions(DialogReportMode(), [

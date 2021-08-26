@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
 class CatcherErrorWidget extends StatelessWidget {
-  final FlutterErrorDetails? details;
+  final FlutterErrorDetails details;
   final bool showStacktrace;
   final String title;
   final String description;
   final double maxWidthForSmallMode;
 
   const CatcherErrorWidget({
-    Key? key,
+    Key key,
     this.details,
-    required this.showStacktrace,
-    required this.title,
-    required this.description,
-    required this.maxWidthForSmallMode,
+    this.showStacktrace,
+    this.title,
+    this.description,
+    this.maxWidthForSmallMode,
   })  : assert(maxWidthForSmallMode > 0),
         super(key: key);
 
@@ -75,8 +75,8 @@ class CatcherErrorWidget extends StatelessWidget {
     if (showStacktrace) {
       final List<String> items = [];
       if (details != null) {
-        items.add(details!.exception.toString());
-        items.addAll(details!.stack.toString().split("\n"));
+        items.add(details.exception.toString());
+        items.addAll(details.stack.toString().split("\n"));
       }
       return ListView.builder(
         padding: const EdgeInsets.all(8.0),

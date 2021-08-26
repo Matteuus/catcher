@@ -62,8 +62,8 @@ class ChildWidget extends StatelessWidget {
 }
 
 class NotificationReportMode extends ReportMode {
-  late FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
-  late Report _lastReport;
+  FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
+  Report _lastReport;
 
   final String channelId;
   final String channelName;
@@ -99,12 +99,12 @@ class NotificationReportMode extends ReportMode {
   }
 
   @override
-  void requestAction(Report report, BuildContext? context) {
+  void requestAction(Report report, BuildContext context) {
     _lastReport = report;
     _sendNotification();
   }
 
-  Future onSelectedNotification(String? payload) {
+  Future onSelectedNotification(String payload) {
     onActionConfirmed(_lastReport);
     return Future<int>.value(0);
   }

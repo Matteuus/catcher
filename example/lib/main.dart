@@ -1,22 +1,32 @@
+import 'dart:io';
+
 import 'package:catcher/catcher.dart';
 import 'package:flutter/material.dart';
-import 'package:sentry/sentry.dart';
 
 void main() {
   ///Configure your debug options (settings used in development mode)
   CatcherOptions debugOptions = CatcherOptions(
-    ///Show information about caught error in dialog
-    DialogReportMode(),
-    [
-      ///Send logs to HTTP server
-      HttpHandler(HttpRequestType.post,
-          Uri.parse("https://jsonplaceholder.typicode.com/posts"),
-          printLogs: true),
 
-      ///Print logs in console
-      ConsoleHandler()
-    ],
-  );
+      ///Show information about caught error in dialog
+      SilentReportMode(),
+      [
+        DiscordHandler(
+            "https://discord.com/api/webhooks/880254205762343012/GP-Dmk7wJn_f5rxnTVIVJ3Uaon585gD9JetwyqYt6YasK3xZB-muMICoxB6e55pQ8UuH",
+            enableDeviceParameters: true,
+            enableApplicationParameters: true,
+            enableCustomParameters: true,
+            enableStackTrace: true,
+            printLogs: true)
+
+        ///Send logs to HTTP server
+        // HttpHandler(HttpRequestType.post,
+        //     Uri.parse("https://jsonplaceholder.typicode.com/posts"),
+        //     printLogs: true),
+
+        // ///Print logs in console
+        // ConsoleHandler()
+      ],
+      screenshotsPath: Directory.systemTemp.path);
 
   ///Configure your production options (settings used in release mode)
   CatcherOptions releaseOptions = CatcherOptions(
@@ -24,11 +34,6 @@ void main() {
     PageReportMode(),
     [
       ///Send logs to Sentry
-      SentryHandler(
-        SentryClient(
-          SentryOptions(dsn: "<DSN>"),
-        ),
-      ),
 
       ///Print logs in console
       ConsoleHandler(),
@@ -63,11 +68,14 @@ class _MyAppState extends State<MyApp> {
       ///Last step: add navigator key of Catcher here, so Catcher can show
       ///page and dialog!
       navigatorKey: Catcher.navigatorKey,
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text("Catcher example"),
+      home: CatcherScreenshot(
+        catcher: Catcher.getInstance(),
+        child: Scaffold(
+          appBar: AppBar(
+            title: const Text("Catcher example"),
+          ),
+          body: ChildWidget(),
         ),
-        body: ChildWidget(),
       ),
     );
   }

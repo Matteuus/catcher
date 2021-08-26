@@ -9,40 +9,40 @@ class SnackbarHandler extends ReportHandler {
   final Duration duration;
 
   ///See [SnackBar] docs for details.
-  final Color? backgroundColor;
+  final Color backgroundColor;
 
   ///See [SnackBar] docs for details.
-  final double? elevation;
+  final double elevation;
 
   ///See [SnackBar] docs for details.
-  final EdgeInsetsGeometry? margin;
+  final EdgeInsetsGeometry margin;
 
   ///See [SnackBar] docs for details.
-  final EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry padding;
 
   ///See [SnackBar] docs for details.
-  final double? width;
+  final double width;
 
   ///See [SnackBar] docs for details.
-  final ShapeBorder? shape;
+  final ShapeBorder shape;
 
   ///See [SnackBar] docs for details.
-  final SnackBarBehavior? behavior;
+  final SnackBarBehavior behavior;
 
   ///See [SnackBar] docs for details.
-  final SnackBarAction? action;
+  final SnackBarAction action;
 
   ///See [SnackBar] docs for details.
-  final Animation<double>? animation;
+  final Animation<double> animation;
 
   ///See [SnackBar] docs for details.
-  final VoidCallback? onVisible;
+  final VoidCallback onVisible;
 
   ///Custom message which can be displayed instead default one.
-  final String? customMessage;
+  final String customMessage;
 
   ///Custom text style for text displayed within snackbar.
-  final TextStyle? textStyle;
+  final TextStyle textStyle;
 
   ///Enable additional logs printing
   final bool printLogs;
@@ -67,14 +67,14 @@ class SnackbarHandler extends ReportHandler {
   ///Handle report. If there's scaffold messenger in provided context, then
   ///snackbar will be shown.
   @override
-  Future<bool> handle(Report error, BuildContext? context) async {
+  Future<bool> handle(Report error, BuildContext context) async {
     try {
-      if (!_hasScaffoldMessenger(context!)) {
+      if (!_hasScaffoldMessenger(context)) {
         _printLog("Passed context has no ScaffoldMessenger in widget ancestor");
         return false;
       }
 
-      ScaffoldMessenger.of(context).showSnackBar(
+      Scaffold.of(context).showSnackBar(
         SnackBar(
           content: Text(
             _getErrorMessage(error),
@@ -103,7 +103,7 @@ class SnackbarHandler extends ReportHandler {
   ///Checks whether context has scaffold messenger.
   bool _hasScaffoldMessenger(BuildContext context) {
     try {
-      return context.findAncestorWidgetOfExactType<ScaffoldMessenger>() != null;
+      return context.findAncestorWidgetOfExactType<Scaffold>() != null;
     } catch (exception, stackTrace) {
       _printLog("_hasScaffoldMessenger failed: $exception, $stackTrace");
       return false;
@@ -113,7 +113,7 @@ class SnackbarHandler extends ReportHandler {
   ///Get error message based on configuration and report.
   String _getErrorMessage(Report error) {
     if (customMessage?.isNotEmpty == true) {
-      return customMessage!;
+      return customMessage;
     } else {
       return "${localizationOptions.toastHandlerDescription} ${error.error}";
     }

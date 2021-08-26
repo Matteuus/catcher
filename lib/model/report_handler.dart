@@ -7,16 +7,16 @@ import 'localization_options.dart';
 
 abstract class ReportHandler {
   ///Logger instance
-  late CatcherLogger logger;
+  CatcherLogger logger;
 
   /// Method called when report has been accepted by user
-  Future<bool> handle(Report error, BuildContext? context);
+  Future<bool> handle(Report error, BuildContext context);
 
   /// Get list of supported platforms
   List<PlatformType> getSupportedPlatforms();
 
   ///Location settings
-  LocalizationOptions? _localizationOptions;
+  LocalizationOptions _localizationOptions;
 
   /// Get currently used localization options
   LocalizationOptions get localizationOptions =>
@@ -24,7 +24,7 @@ abstract class ReportHandler {
 
   // ignore: use_setters_to_change_properties
   /// Set localization options (translations) to this report mode
-  void setLocalizationOptions(LocalizationOptions? localizationOptions) {
+  void setLocalizationOptions(LocalizationOptions localizationOptions) {
     _localizationOptions = localizationOptions;
   }
 

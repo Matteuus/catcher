@@ -8,7 +8,6 @@ class CatcherWebPlugin {
     final MethodChannel channel = MethodChannel(
       'catcher',
       const StandardMethodCodec(),
-      registrar,
     );
 
     final pluginInstance = CatcherWebPlugin();
